@@ -203,8 +203,12 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const small = a < b ? a : b;
+  const big = a > b ? a : b;
+  const flag1 = isStartIncluded === false ? '(' : '[';
+  const flag2 = isEndIncluded === false ? ')' : ']';
+  return `${flag1}${small}, ${big}${flag2}`;
 }
 
 /**
@@ -219,8 +223,12 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  let res = '';
+  for (let i = str.length; i > -1; i -= 1) {
+    res += str.charAt(i);
+  }
+  return res;
 }
 
 /**
@@ -235,8 +243,15 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  function reverse(param) {
+    let res = '';
+    for (let i = param.length; i > -1; i -= 1) {
+      res += param.charAt(i);
+    }
+    return res;
+  }
+  return Number(reverse(num.toString()));
 }
 
 /**
@@ -259,8 +274,34 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const numArr = ccn.toString().split('');
+  if (numArr.length % 2 !== 0) {
+    const arrLuhn = numArr.reduce((acc, cur, curIndex) => {
+      if (curIndex % 2 === 0) {
+        return [...acc, +cur];
+      }
+      if (curIndex % 2 !== 0) {
+        const double = +cur * 2 > 9 ? +cur * 2 - 9 : +cur * 2;
+        return [...acc, double];
+      }
+      return acc;
+    }, []);
+    const sum = arrLuhn.reduce((acc, cur) => acc + cur);
+    return sum % 10 === 0;
+  }
+  const arrLuhn = numArr.reduce((acc, cur, curIndex) => {
+    if (curIndex % 2 !== 0) {
+      return [...acc, +cur];
+    }
+    if (curIndex % 2 === 0) {
+      const double = +cur * 2 > 9 ? +cur * 2 - 9 : +cur * 2;
+      return [...acc, double];
+    }
+    return acc;
+  }, []);
+  const sum = arrLuhn.reduce((acc, cur) => acc + cur);
+  return sum % 10 === 0;
 }
 
 /**
@@ -277,8 +318,15 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  function recursionRoot(n) {
+    const res = n
+      .toString()
+      .split('')
+      .reduce((acc, cur) => +acc + +cur);
+    return res > 9 ? recursionRoot(res) : res;
+  }
+  return recursionRoot(num);
 }
 
 /**
@@ -304,6 +352,15 @@ function getDigitalRoot(/* num */) {
  */
 function isBracketsBalanced(/* str */) {
   throw new Error('Not implemented');
+  // let res = str;
+  // let isMatch = true;
+  // while (isMatch === true) {
+  //   const length = res.length;
+  //   const regExp = /\{\}|\(\)|\[\]|<>/g;
+  //   res = res.replace(regExp, '');
+  //   if (length === res.length) isMatch = false;
+  // }
+  // return res === '';
 }
 
 /**
@@ -326,8 +383,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -342,8 +399,23 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let res = '';
+  let gapRes = '';
+  for (let i = 0; i < pathes[0].length; i += 1) {
+    const isMatch = pathes.every((e) => e.charAt(i) === pathes[0].charAt(i));
+    if (isMatch === true) {
+      gapRes += pathes[0].charAt(i);
+    }
+    if (gapRes.charAt(gapRes.length - 1) === '/') {
+      res += gapRes;
+      gapRes = '';
+    }
+    if (isMatch === false) {
+      break;
+    }
+  }
+  return res;
 }
 
 /**
