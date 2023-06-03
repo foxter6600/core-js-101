@@ -476,18 +476,26 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
-  // return arr
-  //   .sort((a, b) => {
-  //     return a.country > b.country ? 1 : a.country > b.country ? -1 : 0;
-  //   })
-  //   .sort((a, b) => {
-  //     if (a.country === b.country) {
-  //       return a.city > b.city ? 1 : a.city > b.city ? -1 : 0;
-  //     }
-  //     return 0;
-  //   });
+function sortCitiesArray(arr) {
+  const sortArr = arr.sort((a, b) => {
+    if (a.country > b.country) {
+      return 1;
+    } if (a.country < b.country) {
+      return -1;
+    }
+    return 0;
+  });
+  return sortArr.sort((a, b) => {
+    if (a.country === b.country) {
+      if (a.city > b.city) {
+        return 1;
+      } if (a.city < b.city) {
+        return -1;
+      }
+      return 0;
+    }
+    return 0;
+  });
 }
 
 /**
@@ -549,7 +557,9 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-  return arr.filter((e, index) => index === arr.lastIndexOf(e)).sort((a, b) => a - b);
+  return arr
+    .filter((e, index) => index === arr.lastIndexOf(e))
+    .sort((a, b) => a - b);
 }
 
 /**
@@ -607,7 +617,7 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr.map(((e) => childrenSelector(e))).flat();
+  return arr.map((e) => childrenSelector(e)).flat();
 }
 
 /**
@@ -647,7 +657,9 @@ function getElementByIndexes(arr, indexes) {
 function swapHeadAndTail(arr) {
   const halfArr = Math.floor(arr.length / 2);
   if (arr.length === 1) return arr;
-  if (arr.length % 2 === 0) return [...arr.slice(halfArr), ...arr.slice(0, halfArr)];
+  if (arr.length % 2 === 0) {
+    return [...arr.slice(halfArr), ...arr.slice(0, halfArr)];
+  }
   return [...arr.slice(halfArr + 1), arr[halfArr], ...arr.slice(0, halfArr)];
 }
 

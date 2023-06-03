@@ -124,8 +124,22 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const rect1Top = rect1.top;
+  const rect1Rigth = rect1.left + rect1.width;
+  const rect1Bottom = rect1.top + rect1.height;
+  const rect1Left = rect1.left;
+  const rect2Top = rect2.top;
+  const rect2Rigth = rect2.left + rect2.width;
+  const rect2Bottom = rect2.top + rect2.height;
+  const rect2Left = rect2.left;
+  if (rect1Top > rect2Bottom
+      || rect1Bottom < rect2Top
+      || rect1Rigth < rect2Left
+      || rect1Left > rect2Rigth) {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -350,17 +364,16 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
-  // let res = str;
-  // let isMatch = true;
-  // while (isMatch === true) {
-  //   const length = res.length;
-  //   const regExp = /\{\}|\(\)|\[\]|<>/g;
-  //   res = res.replace(regExp, '');
-  //   if (length === res.length) isMatch = false;
-  // }
-  // return res === '';
+function isBracketsBalanced(str) {
+  let res = str;
+  let isMatch = true;
+  while (isMatch === true) {
+    const len = res.length;
+    const regExp = /\{\}|\(\)|\[\]|<>/g;
+    res = res.replace(regExp, '');
+    if (len === res.length) isMatch = false;
+  }
+  return res === '';
 }
 
 /**
